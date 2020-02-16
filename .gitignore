@@ -353,4 +353,4 @@ MigrationBackup/
 env/
 log.txt
 .env
-.vscode
+.vscode/
