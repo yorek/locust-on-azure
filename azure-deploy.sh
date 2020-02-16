@@ -28,22 +28,22 @@ echo "starting"
 cat << EOF > log.txt
 EOF
 
-echo "creating storage account: $AZURE_STORAGE_ACCOUNT" | tee log.txt
+echo "creating storage account: $AZURE_STORAGE_ACCOUNT" | tee -a log.txt
 az storage account create -n $AZURE_STORAGE_ACCOUNT -g $RESOURCE_GROUP --sku Standard_LRS \
 	-o json >> log.txt	
 	
-echo "retrieving storage connection string" | tee log.txt
+echo "retrieving storage connection string" | tee -a log.txt
 AZURE_STORAGE_CONNECTION_STRING=$(az storage account show-connection-string --name $AZURE_STORAGE_ACCOUNT -g $RESOURCE_GROUP -o tsv)
 
-echo 'creating file share' | tee log.txt
+echo 'creating file share' | tee -a log.txt
 az storage share create -n locust --connection-string $AZURE_STORAGE_CONNECTION_STRING \
 	-o json >> log.txt
 
-echo 'uploading simulator scripts' | tee log.txt
+echo 'uploading simulator scripts' | tee -a log.txt
 az storage file upload -s locust --source locustfile.py --connection-string $AZURE_STORAGE_CONNECTION_STRING \
     -o json >> log.txt
 
-echo "deploying locust ($TEST_CLIENTS clients)..." | tee log.txt
+echo "deploying locust ($TEST_CLIENTS clients)..." | tee -a log.txt
 LOCUST_MONITOR=$(az group deployment create -g $RESOURCE_GROUP \
 	--template-file locust-arm-template.json \
 	--parameters \
@@ -56,14 +56,14 @@ LOCUST_MONITOR=$(az group deployment create -g $RESOURCE_GROUP \
 	)
 sleep 10
 
-echo "locust: endpoint: $LOCUST_MONITOR" | tee log.txt
+echo "locust: endpoint: $LOCUST_MONITOR" | tee -a log.txt
 
-echo "locust: starting ..." | tee log.txt
-declare USER_COUNT=$((150*$TEST_CLIENTS))
+echo "locust: starting ..." | tee -a log.txt
+declare USER_COUNT=$((200*$TEST_CLIENTS))
 declare HATCH_RATE=$((5*$TEST_CLIENTS))
 echo "locust: users: $USER_COUNT, hatch rate: $HATCH_RATE"
 curl -fsL $LOCUST_MONITOR/swarm -X POST -F "locust_count=$USER_COUNT" -F "hatch_rate=$HATCH_RATE" >> log.txt
 
-echo "locust: monitor available at: $LOCUST_MONITOR" | tee log.txt
+echo "locust: monitor available at: $LOCUST_MONITOR" | tee -a log.txt
 
-echo "done" | tee log.txt
+echo "done" | tee -a log.txt
