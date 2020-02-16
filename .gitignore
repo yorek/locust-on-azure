@@ -354,3 +354,4 @@ env/
 log.txt
 .env
 .vscode/
+locust.conf
