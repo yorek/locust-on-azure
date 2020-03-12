@@ -1,6 +1,6 @@
 FROM python:3.7-alpine
 
-COPY . .
+COPY requirements.txt requirements.txt
 
 RUN apk --no-cache add --virtual=.build-dep build-base \
     && apk --no-cache add bash g++ zeromq-dev libffi-dev \
