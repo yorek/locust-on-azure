@@ -35,7 +35,7 @@
         }
     },
     "variables": {
-        "image": "yorek/locustio:dev",
+        "image": "yorek/locustio",
         "cpuCores": "1",
         "masterMemoryInGb": "2",
         "clientMemoryInGb": "2",
