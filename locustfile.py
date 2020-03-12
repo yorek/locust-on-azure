@@ -2,12 +2,16 @@ from locust import HttpLocust, TaskSet, task, between
 from faker import Faker
 fake = Faker()
 
-class UserBehavior(TaskSet):
+class APICalls(TaskSet):    
     @task()
-    def customer(self):
-        customer_id = fake.random_int(min=1, max=1061, step=1)
-        self.client.get("/customer/%i" % customer_id, name="/customer/[id]")
+    def getpost(self):
+        post_id = fake.random_int(min=1, max=100, step=1)
+        self.client.get("/posts/%i" % post_id, name="/posts/[id]")
 
-class WebsiteUser(HttpLocust):
-    task_set = UserBehavior
-    wait_time = between(0.1, 0.2)
+    @task()
+    def postpost(self):        
+        self.client.post("/posts", {"title": "foo", "body": "bar", "userId": 1}, name="/posts")
+
+class APIUser(HttpLocust):
+    task_set = APICalls
+    wait_time = between(5, 10) # seconds

@@ -35,7 +35,7 @@
         }
     },
     "variables": {
-        "image": "yorek/locustio",
+        "image": "yorek/locustio:dev",
         "cpuCores": "1",
         "masterMemoryInGb": "2",
         "clientMemoryInGb": "2",
@@ -77,6 +77,8 @@
                             ],
                             "command": [
                                 "locust",
+                                "--locustfile",
+                                "./locust/locustfile.py",
                                 "--master",
                                 "--expect-slaves",
                                 "[parameters('numberOfInstances')]",
@@ -155,6 +157,8 @@
                             ],
                             "command": [
                                 "locust",
+                                "--locustfile",
+                                "./locust/locustfile.py",
                                 "--slave",
                                 "--master-host",
                                 "[reference(resourceId('Microsoft.ContainerInstance/containerGroups', variables('masterContainerGroupName'))).ipAddress.ip]",
