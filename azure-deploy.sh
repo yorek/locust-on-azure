@@ -45,7 +45,7 @@ az storage share create -n locust --connection-string $AZURE_STORAGE_CONNECTION_
 	-o json >> log.txt
 
 echo 'uploading simulator scripts' | tee -a log.txt
-az storage file upload -s locust --source locustfile.py --connection-string $AZURE_STORAGE_CONNECTION_STRING \
+az storage file upload-batch --destination locust --source locust/ --connection-string $AZURE_STORAGE_CONNECTION_STRING \
     -o json >> log.txt
 
 echo "deploying locust ($TEST_CLIENTS clients)..." | tee -a log.txt
