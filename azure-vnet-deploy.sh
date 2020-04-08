@@ -33,6 +33,9 @@ echo "starting"
 cat << EOF > log.txt
 EOF
 
+CLIENT_IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+echo "client Ip address: $CLIENT_IP" | tee -a log.txt
+
 echo "creating storage account: $AZURE_STORAGE_ACCOUNT" | tee -a log.txt
 az storage account create -n $AZURE_STORAGE_ACCOUNT -g $RESOURCE_GROUP --sku Standard_LRS \
 	-o json >> log.txt	
@@ -50,8 +53,9 @@ az storage file upload-batch --destination locust --source locust/ --connection-
 
 echo "deploying locust ($TEST_CLIENTS clients)..." | tee -a log.txt
 LOCUST_MONITOR=$(az group deployment create -g $RESOURCE_GROUP \
-	--template-file locust-arm-template.json \
+	--template-file locust-arm-vnet-template.json \
 	--parameters \
+		clientIp=$CLIENT_IP \
 		host=$HOST \
 		storageAccountName=$AZURE_STORAGE_ACCOUNT \
 		fileShareName=locust \
