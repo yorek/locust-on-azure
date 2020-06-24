@@ -7,6 +7,7 @@ Article with details is here:
 [Running Locust on Azure](https://dev.to/azure/running-locust-on-azure-2k40)
 
 Or just run `azure-deploy.sh` and follow instructions. Is that easy :)
+A VNet integrated deployment is available via `azure-vnet-deploy.sh`
 
 ![Locust on Azure](./images/locust-dotnet-sqlhs.png)
 

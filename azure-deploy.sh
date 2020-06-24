@@ -49,7 +49,7 @@ az storage file upload-batch --destination locust --source locust/ --connection-
     -o json >> log.txt
 
 echo "deploying locust ($TEST_CLIENTS clients)..." | tee -a log.txt
-LOCUST_MONITOR=$(az group deployment create -g $RESOURCE_GROUP \
+LOCUST_MONITOR=$(az deployment group create -g $RESOURCE_GROUP \
 	--template-file locust-arm-template.json \
 	--parameters \
 		host=$HOST \
