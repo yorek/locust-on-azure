@@ -90,7 +90,7 @@
         "publicIPAddressName": "locust-agw-publicip",
         "nsgName": "locust-nsg",
         "applicationGatewayName": "locust-agw",
-        "image": "yorek/locustio",
+        "image": "locustio/locust:1.0.3",
         "cpuCores": "1",
         "masterMemoryInGb": "2",
         "clientMemoryInGb": "2",
@@ -365,9 +365,6 @@
                                 },
                                 {
                                     "port": 5557
-                                },
-                                {
-                                    "port": 5558
                                 }
                             ],
                             "command": [
@@ -375,7 +372,7 @@
                                 "--locustfile",
                                 "./locust/locustfile.py",
                                 "--master",
-                                "--expect-slaves",
+                                "--expect-workers",
                                 "[parameters('numberOfInstances')]",
                                 "--host",
                                 "[parameters('host')]"
@@ -397,9 +394,6 @@
                         },
                         {
                             "port": 5557
-                        },
-                        {
-                            "port": 5558
                         }
                     ]
                 },
@@ -448,16 +442,13 @@
                                 },
                                 {
                                     "port": 5557
-                                },
-                                {
-                                    "port": 5558
                                 }
                             ],
                             "command": [
                                 "locust",
                                 "--locustfile",
                                 "./locust/locustfile.py",
-                                "--slave",
+                                "--worker",
                                 "--master-host",
                                 "[reference(resourceId('Microsoft.ContainerInstance/containerGroups', variables('masterContainerGroupName'))).ipAddress.ip]",
                                 "--host",
