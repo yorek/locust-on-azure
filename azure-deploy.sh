@@ -67,7 +67,7 @@ echo "locust: starting ..." | tee -a log.txt
 declare USER_COUNT=$(($USERS_PER_CLIENT*$TEST_CLIENTS))
 declare HATCH_RATE=$(($HATCH_RATE*$TEST_CLIENTS))
 echo "locust: users: $USER_COUNT, hatch rate: $HATCH_RATE"
-curl -fsL $LOCUST_MONITOR/swarm -X POST -F "locust_count=$USER_COUNT" -F "hatch_rate=$HATCH_RATE" >> log.txt
+curl -fsL $LOCUST_MONITOR/swarm -X POST -F "user_count=$USER_COUNT" -F "hatch_rate=$HATCH_RATE" >> log.txt
 
 echo "locust: monitor available at: $LOCUST_MONITOR" | tee -a log.txt
 
