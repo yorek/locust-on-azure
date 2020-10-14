@@ -351,6 +351,7 @@ MigrationBackup/
 
 # Additional files
 env/
+venv/
 log.txt
 .env
 .vscode/
