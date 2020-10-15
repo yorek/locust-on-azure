@@ -90,12 +90,12 @@
         "publicIPAddressName": "locust-agw-publicip",
         "nsgName": "locust-nsg",
         "applicationGatewayName": "locust-agw",
-        "image": "locustio/locust:1.0.3",
+        "image": "locustio/locust:1.3.0",
         "cpuCores": "1",
         "masterMemoryInGb": "2",
         "clientMemoryInGb": "2",
         "masterContainerGroupName": "locust-master",
-        "clientContainerGroupNamePrefix": "locust-",
+        "clientContainerGroupNamePrefix": "locust-worker-",
         "containerName": "locust",
         "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
     },
@@ -370,7 +370,7 @@
                             "command": [
                                 "locust",
                                 "--locustfile",
-                                "./locust/locustfile.py",
+                                "/home/locust/locust/locustfile.py",
                                 "--master",
                                 "--expect-workers",
                                 "[parameters('numberOfInstances')]",
@@ -379,7 +379,7 @@
                             ],
                             "volumeMounts": [
                                 {
-                                    "mountPath": "/locust",
+                                    "mountPath": "/home/locust/locust/",
                                     "name": "locust"
                                 }
                             ]
@@ -447,7 +447,7 @@
                             "command": [
                                 "locust",
                                 "--locustfile",
-                                "./locust/locustfile.py",
+                                "/home/locust/locust/locustfile.py",
                                 "--worker",
                                 "--master-host",
                                 "[reference(resourceId('Microsoft.ContainerInstance/containerGroups', variables('masterContainerGroupName'))).ipAddress.ip]",
@@ -456,7 +456,7 @@
                             ],
                             "volumeMounts": [
                                 {
-                                    "mountPath": "/locust",
+                                    "mountPath": "/home/locust/locust",
                                     "name": "locust"
                                 }
                             ]
